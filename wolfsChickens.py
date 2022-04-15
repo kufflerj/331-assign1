@@ -6,23 +6,23 @@
 import sys
 
 # Breadth First Search
-# Takes initial and goal states as input and returns the solution path
-def bfs(leftS, rightS, leftE, rightE):
+# Takes initial and goal states as input and returns the solution path & number of nodes expanded
+def bfs(leftS, rightS, leftE, rightE, output):
     return leftS
 
 # Depth First Search
-# Takes initial and goal states as input and returns the solution path
-def dfs(leftS, rightS, leftE, rightE):
+# Takes initial and goal states as input and returns the solution path & number of nodes expanded
+def dfs(leftS, rightS, leftE, rightE, output):
     return leftS
 
 # Iterative Deepening
-# Takes initial and goal states as input and returns the solution path
-def iddfs(leftS, rightS, leftE, rightE):
+# Takes initial and goal states as input and returns the solution path & number of nodes expanded
+def iddfs(leftS, rightS, leftE, rightE, output):
     return leftS
 
 # A-Star Search Depth First Search
-# Takes initial and goal states as input and returns the solution path
-def aStar(leftS, rightS, leftE, rightE):
+# Takes initial and goal states as input and returns the solution path & number of nodes expanded
+def aStar(leftS, rightS, leftE, rightE, output):
     return leftS
 
 if len(sys.argv) != 5:
