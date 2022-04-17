@@ -70,6 +70,10 @@ def bfs(leftS, rightS, leftE, rightE, output):
     for x in explored:
         f.write("%s\n" % x)
     f.close()
+
+    print("Number of nodes expanded: %s" % counter)
+    for x in explored:
+        print("%s" % x)
         
     return leftS
 
