@@ -30,7 +30,8 @@ def expand(node):
     #print("Expanded temp: ", temp)
     return temp
 
-# Breadth First Search
+
+# Breadth First Search (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def bfs(leftS, rightS, leftE, rightE, output):
     counter  = 0
@@ -72,20 +73,41 @@ def bfs(leftS, rightS, leftE, rightE, output):
         
     return leftS
 
-# Depth First Search
+# Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def dfs(leftS, rightS, leftE, rightE, output):
-    return leftS
+    # initialize counter, frontier and explored set
+    counter = 0
+    frontier = rightS
+    explored = []
 
-# Iterative Deepening
+    # DFS algorithm
+
+
+    # write counter and solution path to output
+
+    output.close()
+
+    # print counter and solution
+    print(counter)
+
+
+
+# Iterative Deepening (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def iddfs(leftS, rightS, leftE, rightE, output):
     return leftS
 
-# A-Star Search Depth First Search
+# A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def aStar(leftS, rightS, leftE, rightE, output):
-    return leftS
+    # initialize counter
+    counter = 0
+    # do alogirthm
+    # write counter to output
+    # write solution path to output
+    # print counter
+    # print solution
 
 if len(sys.argv) != 5:
     print("Error! Please try running in the following format: wolfsChickens.py initial-file goal-file mode output-file")
@@ -110,18 +132,13 @@ rightEnd = [int(i) for i in x.split(",")]
 
 gFile.close()
 
-print(leftStart)
-print(rightStart)
-print(leftEnd)
-print(rightEnd)
-
 # check if mode is breadth first search
 if mode == "bfs":
     print("breadth first search")
     bfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # check if mode is breadth first search
 elif mode== "dfs":
-    print("depth first search")
+    dfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # if mode is breadth first search
 elif mode == "iddfs":  
     print("iterative deepening depth first search")
@@ -131,3 +148,4 @@ elif mode == "astar":
 # if mode is breadth first search
 else:
     print("invalid mode")
+    outFile.close()
