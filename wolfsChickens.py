@@ -12,7 +12,6 @@ import sys
 #Put two wolves in the boat
 
 def expand(node):
-    #print("Passed node: ", node)
     if node[0] < 0:
             return 
     if node[1] < 0:
@@ -27,7 +26,6 @@ def expand(node):
             temp.remove(node)
         if node[1] < 0:
             temp.remove(node)
-    #print("Expanded temp: ", temp)
     return temp
 
 
@@ -42,11 +40,10 @@ def bfs(leftS, rightS, leftE, rightE, output):
             [rightS[0], rightS[1]-1, rightS[2]], 
             [rightS[0]-1, rightS[1]-1, rightS[2]], 
             [rightS[0], rightS[1]-2, rightS[2]]]
-    #print("Original temp: ", temp)
+    
     for node in temp:
         if node[0] < node[1]:
             temp.remove(node)
-            #print("skip")
         else:
             #print(node)
             counter = counter + 1
@@ -59,10 +56,7 @@ def bfs(leftS, rightS, leftE, rightE, output):
             if(node[0] == 0 and node[1] == 0):
                 #print("goal found")
                 break
-            #print("else frontier: ", temp)
-            
-    #print(counter)
-    #print("Explored ", explored)
+
     for x in explored:
         if x[1] < 0 or x[0] < 0:
             explored.remove(x)
