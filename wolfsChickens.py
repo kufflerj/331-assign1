@@ -63,6 +63,10 @@ def bfs(leftS, rightS, leftE, rightE, output):
             
     #print(counter)
     #print("Explored ", explored)
+    for x in explored:
+        if x[1] < 0 or x[0] < 0:
+            explored.remove(x)
+            counter = counter - 1
 
     f = open("output", "a")
     f.write("Breadth first search:\n" )
