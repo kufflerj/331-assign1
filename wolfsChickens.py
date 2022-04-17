@@ -62,12 +62,11 @@ def bfs(leftS, rightS, leftE, rightE, output):
             explored.remove(x)
             counter = counter - 1
 
-    f = open("output", "a")
-    f.write("Breadth first search:\n" )
-    f.write("Number of nodes expanded: %s\n" % counter)
+    output.write("Breadth first search:\n" )
+    output.write("Number of nodes expanded: %s\n" % counter)
     for x in explored:
-        f.write("%s\n" % x)
-    f.close()
+        output.write("%s\n" % x)
+    output.close()
 
     print("Number of nodes expanded: %s" % counter)
     for x in explored:
@@ -80,13 +79,15 @@ def bfs(leftS, rightS, leftE, rightE, output):
 def dfs(leftS, rightS, leftE, rightE, output):
     # initialize counter, frontier and explored set
     counter = 0
-    frontier = rightS
+    frontier = []
     explored = []
+    solution = []
 
     # DFS algorithm
 
 
     # write counter and solution path to output
+    output.write("Depth first search:\n")
 
     output.close()
 
@@ -136,10 +137,11 @@ gFile.close()
 
 # check if mode is breadth first search
 if mode == "bfs":
-    print("breadth first search")
+    print("Breadth first search:")
     bfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # check if mode is breadth first search
 elif mode== "dfs":
+    print("Depth first search:")
     dfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # if mode is breadth first search
 elif mode == "iddfs":  
