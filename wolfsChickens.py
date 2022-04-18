@@ -5,6 +5,7 @@
 
 import sys
 from collections import deque
+from queue import PriorityQueue
 
 # Order of moves (skip invalid moves):
 #    1. Put one chicken in the boat
@@ -154,22 +155,28 @@ def iddfs(leftS, rightS, leftE, rightE, output):
     maxDepth = 10
     for i in range(maxDepth):
         #dfs algorithm here 
-    
-    return leftS
+        print("")
+    #return leftS
 
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def aStar(leftS, rightS, leftE, rightE, output):
     # initialize counter, frontier and explored set
     counter = 0
+    # set the heuristic
+    h = (rightS[0] + rightS[1])/2
     explored = []
     explored_left = []
-    # all possible moves in order using a LIFO queue
-    frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
+    # all possible moves inserted into a priority queue
+    temp = [[rightS[0]-1, rightS[1], rightS[2]], 
             [rightS[0]-2, rightS[1], rightS[2]], 
             [rightS[0], rightS[1]-1, rightS[2]], 
             [rightS[0]-1, rightS[1]-1, rightS[2]], 
-            [rightS[0], rightS[1]-2, rightS[2]]]
+            [rightS[0], rightS[1]-2, rightS[2]]] 
+    frontier = PriorityQueue()
+    for node in temp:
+        frontier.put(node)
+
 
     # A* algorithm
     while(frontier):
