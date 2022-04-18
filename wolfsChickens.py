@@ -4,16 +4,18 @@
 # Date: 4/14/22
 
 import sys
+from collections import deque
 
-#Put one chicken in the boat
-#Put two chickens in the boat
-#Put one wolf in the boat
-#Put one wolf and one chicken in the boat
-#Put two wolves in the boat
+# Order of moves (skip invalid moves):
+#    1. Put one chicken in the boat
+#    2. Put two chickens in the boat
+#    3. Put one wolf in the boat
+#    4. Put one wolf and one chicken in the boat
+#    5. Put two wolves in the boat
 
 def expand(node):
     if node[0] < 0:
-            return 
+        return 
     if node[1] < 0:
         return
     temp = [[node[0]-1, node[1], node[2]], 
@@ -72,27 +74,57 @@ def bfs(leftS, rightS, leftE, rightE, output):
     for x in explored:
         print("%s" % x)
         
-    return leftS
 
-# Depth First Search (RR)
+# Depth First Search using graph search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def dfs(leftS, rightS, leftE, rightE, output):
     # initialize counter, frontier and explored set
     counter = 0
-    frontier = []
     explored = []
-    solution = []
+    # all possible moves in order using a LIFO queue
+    frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
+            [rightS[0]-2, rightS[1], rightS[2]], 
+            [rightS[0], rightS[1]-1, rightS[2]], 
+            [rightS[0]-1, rightS[1]-1, rightS[2]], 
+            [rightS[0], rightS[1]-2, rightS[2]]]
 
     # DFS algorithm
+    while(frontier):
+        node = frontier.pop()
+        # there cannot be less chickens than wolves
+        if node[0] < node[1]:
+            frontier.remove(node)
+        else:
+            # counter is increased and each node in the queue is expanded fully before the next
+            counter = counter + 1
+            expanded = expand(node)
+            if(expanded):
+                for x in expanded:
+                    if x not in frontier:
+                        frontier.append(x)
+            explored.append(node)
+            # if the goal state is reached
+            if(node[0] == 0 and node[1] == 0):
+                break
 
+    for x in explored:
+        if x[1] < 0 or x[0] < 0:
+            explored.remove(x)
+            counter = counter - 1
 
     # write counter and solution path to output
-    output.write("Depth first search:\n")
-
+    output.write("Depth first search-\n")
+    output.write("Number of nodes expanded: " + str(counter) + "\n")
+    for node in explored:
+        output.write("%s\n" % node)
+        output.write("\n")
     output.close()
 
     # print counter and solution
-    print(counter)
+    print("Number of Nodes Expanded: " + str(counter))
+    print("Solution:")
+    for node in explored:
+        print(node)
 
 
 
