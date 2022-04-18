@@ -3,8 +3,7 @@
 # Authors: Jane Kuffler (kufflerj@oregonstate.edu), Rose Rodarte (rodartes@oregonstate.edu)
 # Date: 4/14/22
 
-import sys
-from collections import deque
+import sys, math
 from queue import PriorityQueue
 
 
@@ -206,51 +205,55 @@ def iddfs(leftS, rightS, leftE, rightE, output):
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def aStar(leftS, rightS, rightE, output):
-    # initialize counter, frontier and explored set
+    # initialize counter, frontier and explored sets
     counter = 1
-    # set the heuristic
-    h = (rightS[0] + rightS[1])/2
     explored = []
     explored_left = []
-    # all possible moves inserted into a priority queue
-    temp = [[rightS[0]-1, rightS[1], rightS[2]], 
+    # all possible moves from expanding a node
+    frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
             [rightS[0]-2, rightS[1], rightS[2]], 
             [rightS[0], rightS[1]-1, rightS[2]], 
             [rightS[0]-1, rightS[1]-1, rightS[2]], 
             [rightS[0], rightS[1]-2, rightS[2]]] 
-    frontier = PriorityQueue()
-    for node in temp:
-        frontier.put(node)
-
+    # calculate heuristics of each move
+    heurs = []
+    f = PriorityQueue()
+    for node in frontier:
+        h = math.sqrt((node[0]-rightE[0])^2 + (node[1]-rightE[1])^2)
+        heurs.append(h)
+    for i in range(len(frontier)):
+        f.put((heurs[i], frontier[i]))
 
     # A* algorithm
     while(frontier):
-        node = frontier.pop()
+        node = f.get()
+        # find a heuristic
         leftGroup = [0, 0, 0]
         for i in range(3):
-            diff = rightS[i] - node[i]
+            diff = rightS[i] - node[1][i]
             leftGroup[i] = diff
         # there cannot be less chickens than wolves
-        if node[0] < node[1]:
+        if node[1][0] < node[1][1]:
             pass
         # there cannot be negative chickens or negative wolves
-        elif (node[0] < 0) or (node[1] < 0):
+        elif (node[1][0] < 0) or (node[1][1] < 0):
             pass
         # make sure there are not more chickens than wolves on the opposite side of river
         elif(leftGroup[0] < leftGroup[1]):
-                pass
+            pass
         else:
-            # counter is increased and each node in the queue is expanded fully before the next
+            # else increase counter and expand the node
             counter = counter + 1
-            expanded = expand(node)
+            expanded = expand(node[1])
             if(expanded):
                 for x in expanded:
-                    if x not in frontier:
-                        frontier.append(x)
-            explored.append(node)
+                    h = math.sqrt((node[1][0]-rightE[0])^2 + (node[1][1]-rightE[1])^2)
+                    f.put((h, x))
+            explored.append(node[1])
             explored_left.append(leftGroup)
-            # if the goal state is reached
-            if(node[0] == rightE[0] and node[1] == rightE[1]):
+            # if the goal is found
+            if(node[1][0] == rightE[0] and node[1][1] == rightE[1]):
+                print("GOAL FOUND")
                 break
 
     # write counter and solution path to output
@@ -258,12 +261,6 @@ def aStar(leftS, rightS, rightE, output):
     prettyPrint(counter, rightS, leftS, explored, explored_left, output)
     # close the output file
     output.close()
-
-    # print counter and solution
-    print("Number of Nodes Expanded: " + str(counter))
-    print("Solution:")
-    for ind in range(len(explored)):
-        print(str(explored[ind]) + " || " + str(explored_left[ind]))
 
 # driver code below
 
