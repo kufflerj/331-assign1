@@ -60,6 +60,7 @@ def bfs(leftS, rightS, leftE, rightE, output):
     counter  = 1
     explored = []
     expanded = []
+    visited = []
     explored_left = []
     temp = [[rightS[0]-1, rightS[1], rightS[2]], 
             [rightS[0]-2, rightS[1], rightS[2]], 
@@ -67,9 +68,8 @@ def bfs(leftS, rightS, leftE, rightE, output):
             [rightS[0]-1, rightS[1]-1, rightS[2]], 
             [rightS[0], rightS[1]-2, rightS[2]]]
     
-    temp.reverse()
     while(temp):
-        node = temp.pop()
+        node = temp.pop(0)
         leftGroup = [0, 0, 0]
         for i in range(3):
             diff = rightS[i] - node[i]
@@ -86,8 +86,9 @@ def bfs(leftS, rightS, leftE, rightE, output):
             expanded = expand(node)
             if(expanded):
                 for x in expanded:
-                    if x not in temp:
+                    if x not in visited:
                         temp.append(x)
+                        visited.append(x)
             explored.append(node)
             explored_left.append(leftGroup)
             if(node[0] == rightE[0] and node[1] == rightE[1]):
