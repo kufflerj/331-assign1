@@ -156,12 +156,52 @@ def dfs( rightS, leftS, rightE, output):
 # Iterative Deepening (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def iddfs(leftS, rightS, leftE, rightE, output):
-    #will figure out max depth 
-    maxDepth = 10
-    #for i in range(maxDepth):
+    counter = 1
+    explored = []
+    explored_left = []
+    # all possible moves in order using a LIFO queue
+    frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
+            [rightS[0]-2, rightS[1], rightS[2]], 
+            [rightS[0], rightS[1]-1, rightS[2]], 
+            [rightS[0]-1, rightS[1]-1, rightS[2]], 
+            [rightS[0], rightS[1]-2, rightS[2]]]
+    #maxDepth is set to be 2* the original number of chickens
+    maxDepth = (rightS[0])*2
+    for i in range(maxDepth):
         #dfs algorithm here 
+        node = frontier.pop()
+        leftGroup = [0, 0, 0]
+        for i in range(3):
+            diff = rightS[i] - node[i]
+            leftGroup[i] = diff
+        # there cannot be less chickens than wolves
+        if node[0] < node[1]:
+                pass
+        # there cannot be negative chickens or negative wolves
+        elif (node[0] < 0) or (node[1] < 0):
+            pass
+        # make sure there are not more chickens than wolves on the opposite side of river
+        elif(leftGroup[0] < leftGroup[1]):
+            pass
+        else:
+        # counter is increased and each node in the queue is expanded fully before the next
+            counter = counter + 1
+            expanded = expand(node)
+            if(expanded):
+                for x in expanded:
+                    if x not in frontier:
+                        frontier.append(x)
+            explored.append(node)
+            explored_left.append(leftGroup)
+        # if the goal state is reached
+            if(node[0] == rightE[0] and node[1] == rightE[1]):
+                print("GOAL FOUND")
+                break
 
-    #return leftS
+    output.write("Iterative Deepening Depth first search-\n")
+    prettyPrint(counter, rightS, leftS, explored, explored_left, output)
+    output.close()
+    
 
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
@@ -262,7 +302,7 @@ elif mode== "dfs":
 # check if mode is iterative deepening dfs
 elif mode == "iddfs":  
     print("iterative deepening depth first search")
-    #iddfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
+    iddfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # check if mode is A* search
 elif mode == "astar":  
     print("A* search:")
