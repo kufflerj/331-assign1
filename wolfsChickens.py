@@ -165,7 +165,7 @@ def iddfs(leftS, rightS, leftE, rightE, output):
 
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
-def aStar(leftS, rightS, leftE, rightE, output):
+def aStar(leftS, rightS, rightE, output):
     # initialize counter, frontier and explored set
     counter = 1
     # set the heuristic
@@ -215,12 +215,7 @@ def aStar(leftS, rightS, leftE, rightE, output):
 
     # write counter and solution path to output
     output.write("A* search-\n")
-    output.write("Number of nodes expanded: " + str(counter) + "\n")
-    for ind in range(len(explored)):
-        output.write("%s" % explored[ind])
-        output.write(" || ")
-        output.write("%s" % explored_left[ind])
-        output.write("\n")
+    prettyPrint(counter, rightS, leftS, explored, explored_left, output)
     # close the output file
     output.close()
 
@@ -271,7 +266,7 @@ elif mode == "iddfs":
 # check if mode is A* search
 elif mode == "astar":  
     print("A* search:")
-    aStar(leftStart, rightStart, leftEnd, rightEnd, outFile)
+    aStar(leftStart, rightStart, rightEnd, outFile)
 # all other modes are not valid, so close the file and quit
 else:
     print("invalid mode")
