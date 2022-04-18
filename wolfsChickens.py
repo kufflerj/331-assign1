@@ -156,7 +156,7 @@ def dfs( rightS, leftS, rightE, output):
 # Iterative Deepening (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def iddfs(leftS, rightS, leftE, rightE, output):
-    counter = 0
+    counter = 1
     explored = []
     explored_left = []
     # all possible moves in order using a LIFO queue
@@ -199,20 +199,8 @@ def iddfs(leftS, rightS, leftE, rightE, output):
                 break
 
     output.write("Iterative Deepening Depth first search-\n")
-    output.write("Number of nodes expanded: " + str(counter) + "\n")
-    for ind in range(len(explored)):
-        output.write("%s" % explored[ind])
-        output.write(" || ")
-        output.write("%s" % explored_left[ind])
-        output.write("\n")
-    # close the output file
+    prettyPrint(counter, rightS, leftS, explored, explored_left, output)
     output.close()
-
-    # print counter and solution
-    print("Number of Nodes Expanded: " + str(counter))
-    print("Solution:")
-    for ind in range(len(explored)):
-        print(str(explored[ind]) + " || " + str(explored_left[ind]))
     
 
 # A-Star Search Depth First Search (RR)
