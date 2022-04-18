@@ -4,7 +4,7 @@
 # Date: 4/14/22
 
 import sys
-from collections import deque
+import collections 
 
 # Order of moves (skip invalid moves):
 #    1. Put one chicken in the boat
@@ -44,17 +44,19 @@ def bfs(leftS, rightS, leftE, rightE, output):
             [rightS[0]-1, rightS[1]-1, rightS[2]], 
             [rightS[0], rightS[1]-2, rightS[2]]]
     
-    for node in temp:
+    temp.reverse()
+    while(temp):
+        node = temp.pop()
         leftGroup = [0, 0, 0]
         for i in range(3):
             diff = rightS[i] - node[i]
             leftGroup[i] = diff
         if node[0] < node[1]:
-            temp.remove(node)
+            pass
         elif (node[0] < 0) or (node[1] < 0):
-            temp.remove(node)
+            pass
         elif(leftGroup[0] < leftGroup[1]):
-            temp.remove(node)
+            pass
         else:
             #print(node)
             counter = counter + 1
@@ -151,10 +153,10 @@ def dfs(leftS, rightS, leftE, rightE, output):
 def iddfs(leftS, rightS, leftE, rightE, output):
     #will figure out max depth 
     maxDepth = 10
-    for i in range(maxDepth):
+    #for i in range(maxDepth):
         #dfs algorithm here 
     
-    return leftS
+    #return leftS
 
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
