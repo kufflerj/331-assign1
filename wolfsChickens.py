@@ -37,6 +37,7 @@ def bfs(leftS, rightS, leftE, rightE, output):
     counter  = 0
     explored = []
     expanded = []
+    explored_left = []
     temp = [[rightS[0]-1, rightS[1], rightS[2]], 
             [rightS[0]-2, rightS[1], rightS[2]], 
             [rightS[0], rightS[1]-1, rightS[2]], 
@@ -44,7 +45,15 @@ def bfs(leftS, rightS, leftE, rightE, output):
             [rightS[0], rightS[1]-2, rightS[2]]]
     
     for node in temp:
+        leftGroup = [0, 0, 0]
+        for i in range(3):
+            diff = rightS[i] - node[i]
+            leftGroup[i] = diff
         if node[0] < node[1]:
+            temp.remove(node)
+        elif (node[0] < 0) or (node[1] < 0):
+            temp.remove(node)
+        elif(leftGroup[0] < leftGroup[1]):
             temp.remove(node)
         else:
             #print(node)
@@ -55,24 +64,24 @@ def bfs(leftS, rightS, leftE, rightE, output):
                     if x not in temp:
                         temp.append(x)
             explored.append(node)
-            if(node[0] == 0 and node[1] == 0):
+            explored_left.append(leftGroup)
+            if(node[0] == rightE[0] and node[1] == rightE[1]):
                 #print("goal found")
                 break
 
-    for x in explored:
-        if x[1] < 0 or x[0] < 0:
-            explored.remove(x)
-            counter = counter - 1
 
     output.write("Breadth first search:\n" )
     output.write("Number of nodes expanded: %s\n" % counter)
-    for x in explored:
-        output.write("%s\n" % x)
+    for x in range(len(explored)):
+        output.write("%s" % explored[x])
+        output.write(" || ")
+        output.write("%s" % explored_left[x])
+        output.write("\n")
     output.close()
 
     print("Number of nodes expanded: %s" % counter)
-    for x in explored:
-        print("%s" % x)
+    for x in range(len(explored)):
+        print(str(explored[x]) + " || " + str(explored_left[x]))
         
 
 # Depth First Search using graph search (RR)
@@ -141,6 +150,11 @@ def dfs( rightS, rightE, output):
 # Iterative Deepening (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def iddfs(leftS, rightS, leftE, rightE, output):
+    #will figure out max depth 
+    maxDepth = 10
+    for i in range(maxDepth):
+        #dfs algorithm here 
+    
     return leftS
 
 # A-Star Search Depth First Search (RR)
@@ -241,6 +255,7 @@ elif mode== "dfs":
 # check if mode is iterative deepening dfs
 elif mode == "iddfs":  
     print("iterative deepening depth first search")
+    #iddfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
 # check if mode is A* search
 elif mode == "astar":  
     print("A* search:")
