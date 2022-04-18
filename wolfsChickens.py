@@ -88,7 +88,7 @@ def bfs(leftS, rightS, leftE, rightE, output):
 
 # Depth First Search using graph search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
-def dfs(leftS, rightS, leftE, rightE, output):
+def dfs( rightS, rightE, output):
     # initialize counter, frontier and explored set
     counter = 0
     explored = []
@@ -138,6 +138,7 @@ def dfs(leftS, rightS, leftE, rightE, output):
         output.write(" || ")
         output.write("%s" % explored_left[ind])
         output.write("\n")
+    # close the output file
     output.close()
 
     # print counter and solution
@@ -161,14 +162,67 @@ def iddfs(leftS, rightS, leftE, rightE, output):
 # A-Star Search Depth First Search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def aStar(leftS, rightS, leftE, rightE, output):
-    # initialize counter
+    # initialize counter, frontier and explored set
     counter = 0
-    # do alogirthm
-    # write counter to output
-    # write solution path to output
-    # print counter
-    # print solution
+    explored = []
+    explored_left = []
+    # all possible moves in order using a LIFO queue
+    frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
+            [rightS[0]-2, rightS[1], rightS[2]], 
+            [rightS[0], rightS[1]-1, rightS[2]], 
+            [rightS[0]-1, rightS[1]-1, rightS[2]], 
+            [rightS[0], rightS[1]-2, rightS[2]]]
 
+    # A* algorithm
+    while(frontier):
+        node = frontier.pop()
+        leftGroup = [0, 0, 0]
+        for i in range(3):
+            diff = rightS[i] - node[i]
+            leftGroup[i] = diff
+        # there cannot be less chickens than wolves
+        if node[0] < node[1]:
+            pass
+        # there cannot be negative chickens or negative wolves
+        elif (node[0] < 0) or (node[1] < 0):
+            pass
+        # make sure there are not more chickens than wolves on the opposite side of river
+        elif(leftGroup[0] < leftGroup[1]):
+                pass
+        else:
+            # counter is increased and each node in the queue is expanded fully before the next
+            counter = counter + 1
+            expanded = expand(node)
+            if(expanded):
+                for x in expanded:
+                    if x not in frontier:
+                        frontier.append(x)
+            explored.append(node)
+            explored_left.append(leftGroup)
+            # if the goal state is reached
+            if(node[0] == rightE[0] and node[1] == rightE[1]):
+                break
+
+    # write counter and solution path to output
+    output.write("A* search-\n")
+    output.write("Number of nodes expanded: " + str(counter) + "\n")
+    for ind in range(len(explored)):
+        output.write("%s" % explored[ind])
+        output.write(" || ")
+        output.write("%s" % explored_left[ind])
+        output.write("\n")
+    # close the output file
+    output.close()
+
+    # print counter and solution
+    print("Number of Nodes Expanded: " + str(counter))
+    print("Solution:")
+    for ind in range(len(explored)):
+        print(str(explored[ind]) + " || " + str(explored_left[ind]))
+
+# driver code below
+
+# make sure the user has 5 arguments
 if len(sys.argv) != 5:
     print("Error! Please try running in the following format: wolfsChickens.py initial-file goal-file mode output-file")
 
@@ -182,32 +236,33 @@ x = inFile.readline()
 leftStart = [int(i) for i in x.split(",")]
 x = inFile.readline()
 rightStart = [int(i) for i in x.split(",")]
-    
+# close the initial state file    
 inFile.close()
 
 x = gFile.readline()
 leftEnd = [int(i) for i in x.split(",")]
 x = gFile.readline()
 rightEnd = [int(i) for i in x.split(",")]
-
+# close the goal state file
 gFile.close()
 
 # check if mode is breadth first search
 if mode == "bfs":
     print("Breadth first search:")
     bfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
-# check if mode is breadth first search
+# check if mode is depth first search
 elif mode== "dfs":
     print("Depth first search:")
-    dfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
-# if mode is breadth first search
+    dfs(rightStart, rightEnd, outFile)
+# check if mode is iterative deepening dfs
 elif mode == "iddfs":  
     print("iterative deepening depth first search")
     #iddfs(leftStart, rightStart, leftEnd, rightEnd, outFile)
-# if mode is breadth first search
+# check if mode is A* search
 elif mode == "astar":  
-    print("a star search")
-# if mode is breadth first search
+    print("A* search:")
+    aStar(leftStart, rightStart, leftEnd, rightEnd, outFile)
+# all other modes are not valid, so close the file and quit
 else:
     print("invalid mode")
     outFile.close()
