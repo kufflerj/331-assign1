@@ -195,7 +195,6 @@ def iddfs(leftS, rightS, leftE, rightE, output):
             explored_left.append(leftGroup)
         # if the goal state is reached
             if(node[0] == rightE[0] and node[1] == rightE[1]):
-                print("GOAL FOUND")
                 break
 
     output.write("Iterative Deepening Depth first search-\n")
