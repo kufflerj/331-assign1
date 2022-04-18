@@ -32,11 +32,33 @@ def expand(node):
             temp.remove(node)
     return temp
 
+# prints a solution to console and file
+def prettyPrint(count, right, left, expr, expl, output):
+    
+    # output to file
+    output.write("Number of nodes expanded: " + str(count) + "\n")
+    output.write("%s" % right)
+    output.write(" || ")
+    output.write("%s" % left)
+    output.write("\n")
+    for ind in range(len(expr)):
+        output.write("%s" % expr[ind])
+        output.write(" || ")
+        output.write("%s" % expl[ind])
+        output.write("\n")
+
+    # output to console
+    print("Number of Nodes Expanded: " + str(count))
+    print("Solution:")
+    print(str(right) + " || " + str(left))
+    for ind in range(len(expr)):
+        print(str(expr[ind]) + " || " + str(expl[ind]))
+    
 
 # Breadth First Search (JK)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def bfs(leftS, rightS, leftE, rightE, output):
-    counter  = 0
+    counter  = 1
     explored = []
     expanded = []
     explored_left = []
@@ -74,25 +96,16 @@ def bfs(leftS, rightS, leftE, rightE, output):
                 break
 
 
-    output.write("Breadth first search:\n" )
-    output.write("Number of nodes expanded: %s\n" % counter)
-    for x in range(len(explored)):
-        output.write("%s" % explored[x])
-        output.write(" || ")
-        output.write("%s" % explored_left[x])
-        output.write("\n")
+    output.write("Breadth first search\n" )
+    prettyPrint(counter, rightS, leftS, explored, explored_left, output)
     output.close()
-
-    print("Number of nodes expanded: %s" % counter)
-    for x in range(len(explored)):
-        print(str(explored[x]) + " || " + str(explored_left[x]))
         
 
 # Depth First Search using graph search (RR)
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
-def dfs( rightS, rightE, output):
+def dfs( rightS, leftS, rightE, output):
     # initialize counter, frontier and explored set
-    counter = 0
+    counter = 1
     explored = []
     explored_left = []
     # all possible moves in order using a LIFO queue
@@ -132,22 +145,11 @@ def dfs( rightS, rightE, output):
             if(node[0] == rightE[0] and node[1] == rightE[1]):
                 break
 
-    # write counter and solution path to output
-    output.write("Depth first search-\n")
-    output.write("Number of nodes expanded: " + str(counter) + "\n")
-    for ind in range(len(explored)):
-        output.write("%s" % explored[ind])
-        output.write(" || ")
-        output.write("%s" % explored_left[ind])
-        output.write("\n")
+    # output counter and solution path
+    output.write("Depth first search\n" )
+    prettyPrint(counter, rightS, leftS, explored, explored_left, output)
     # close the output file
     output.close()
-
-    # print counter and solution
-    print("Number of Nodes Expanded: " + str(counter))
-    print("Solution:")
-    for ind in range(len(explored)):
-        print(str(explored[ind]) + " || " + str(explored_left[ind]))
 
 
 
@@ -217,7 +219,7 @@ def iddfs(leftS, rightS, leftE, rightE, output):
 # Takes initial and goal states as input and returns the solution path & number of nodes expanded
 def aStar(leftS, rightS, leftE, rightE, output):
     # initialize counter, frontier and explored set
-    counter = 0
+    counter = 1
     # set the heuristic
     h = (rightS[0] + rightS[1])/2
     explored = []
@@ -313,7 +315,7 @@ if mode == "bfs":
 # check if mode is depth first search
 elif mode== "dfs":
     print("Depth first search:")
-    dfs(rightStart, rightEnd, outFile)
+    dfs(rightStart, leftStart, rightEnd, outFile)
 # check if mode is iterative deepening dfs
 elif mode == "iddfs":  
     print("iterative deepening depth first search")
