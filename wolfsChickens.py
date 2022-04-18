@@ -81,6 +81,7 @@ def dfs(leftS, rightS, leftE, rightE, output):
     # initialize counter, frontier and explored set
     counter = 0
     explored = []
+    explored_left = []
     # all possible moves in order using a LIFO queue
     frontier = [[rightS[0]-1, rightS[1], rightS[2]], 
             [rightS[0]-2, rightS[1], rightS[2]], 
@@ -91,9 +92,19 @@ def dfs(leftS, rightS, leftE, rightE, output):
     # DFS algorithm
     while(frontier):
         node = frontier.pop()
+        leftGroup = [0, 0, 0]
+        for i in range(3):
+            diff = rightS[i] - node[i]
+            leftGroup[i] = diff
         # there cannot be less chickens than wolves
         if node[0] < node[1]:
-            frontier.remove(node)
+            pass
+        # there cannot be negative chickens or negative wolves
+        elif (node[0] < 0) or (node[1] < 0):
+            pass
+        # make sure there are not more chickens than wolves on the opposite side of river
+        elif(leftGroup[0] < leftGroup[1]):
+                pass
         else:
             # counter is increased and each node in the queue is expanded fully before the next
             counter = counter + 1
@@ -103,28 +114,26 @@ def dfs(leftS, rightS, leftE, rightE, output):
                     if x not in frontier:
                         frontier.append(x)
             explored.append(node)
+            explored_left.append(leftGroup)
             # if the goal state is reached
-            if(node[0] == 0 and node[1] == 0):
+            if(node[0] == rightE[0] and node[1] == rightE[1]):
                 break
-
-    for x in explored:
-        if x[1] < 0 or x[0] < 0:
-            explored.remove(x)
-            counter = counter - 1
 
     # write counter and solution path to output
     output.write("Depth first search-\n")
     output.write("Number of nodes expanded: " + str(counter) + "\n")
-    for node in explored:
-        output.write("%s\n" % node)
+    for ind in range(len(explored)):
+        output.write("%s" % explored[ind])
+        output.write(" || ")
+        output.write("%s" % explored_left[ind])
         output.write("\n")
     output.close()
 
     # print counter and solution
     print("Number of Nodes Expanded: " + str(counter))
     print("Solution:")
-    for node in explored:
-        print(node)
+    for ind in range(len(explored)):
+        print(str(explored[ind]) + " || " + str(explored_left[ind]))
 
 
 
